@@ -66,20 +66,16 @@
 
     <script type="text/javascript">
       
-    // window.onload = addItemsToView("immunoG500");
 
     $( document ).ready(function() {
-      console.log("Adding items to view");
       var itm = document.getElementById("product-acidex");
       var parent = document.getElementById("shop-container");
-      console.log(parent);
       var cln = itm.cloneNode(true);
       itm.outerHTML = "";
       delete itm;
 
 
       if(localStorage.getItem("immunoG500")!=null){
-        console.log(localStorage.getItem("immunoG500"));
         var cln2 = cln.cloneNode(true);
 
         cln2.setAttribute("name", "immunoG500");
@@ -95,7 +91,6 @@
         parent.appendChild(cln2);
       }
       if(localStorage.getItem("immunoG100")!=null){
-        console.log(localStorage.getItem("immunoG100"));
         var cln2 = cln.cloneNode(true);
 
         cln2.setAttribute("name", "immunoG100");
@@ -111,7 +106,6 @@
         parent.appendChild(cln2);
       }
       if(localStorage.getItem("holex")!=null){
-        console.log(localStorage.getItem("holex"));
         var cln2 = cln.cloneNode(true);
 
         cln2.setAttribute("name", "holex");
@@ -127,7 +121,6 @@
         parent.appendChild(cln2);
       }
       if(localStorage.getItem("acidex")!=null){
-        console.log(localStorage.getItem("acidex"));
         var cln2 = cln.cloneNode(true);
 
         cln2.setAttribute("name", "acidex");
@@ -142,7 +135,6 @@
         parent.appendChild(cln2);
       }
       if(localStorage.getItem("q10")!=null){
-        console.log(localStorage.getItem("q10"));
         var cln2 = cln.cloneNode(true);
 
         cln2.setAttribute("name", "q10");
@@ -207,7 +199,6 @@
     /* Update quantity */
     function updateQuantity(quantityInput)
     {
-      console.log("updating quantity");
       /* Calculate line price */
       var productRow = $(quantityInput).parent().parent();
       var price = parseFloat(productRow.children('.product-price').text());

@@ -252,8 +252,6 @@
         $postal = $_POST['postal'];
         $adress = $_POST['adress'];
 
-        $order = addProducts();
-
         if(isset($_POST['email2'])){
           $email2 = $_POST['email2'];
 
@@ -311,19 +309,23 @@
           
           $error2 = 1;
         }
-
-        $_SESSION["first_name2"] = $first_name2;
-        $_SESSION["last_name2"] = $last_name2;
-        $_SESSION["phone"] = $phone;
-        $_SESSION["email2"] = $email2;
-        $_SESSION["city"] = $city;
-        $_SESSION["postal"] = $postal;
-        $_SESSION["adress"] = $adress;
+        
 
         if($error2 == 1){
           errorHandle($msg2);
         }
-        else{
+        else if($error2 == 0){
+
+          $order = addProducts();
+
+          $_SESSION["first_name2"] = $first_name2;
+          $_SESSION["last_name2"] = $last_name2;
+          $_SESSION["phone"] = $phone;
+          $_SESSION["email2"] = $email2;
+          $_SESSION["city"] = $city;
+          $_SESSION["postal"] = $postal;
+          $_SESSION["adress"] = $adress;
+
           $email_from = "immunopharma@sezampro.rs";
 
           $email_subject = "Poručivanje proizvoda - immunopharma.rs";
@@ -401,19 +403,6 @@
             </div>
           </div>
 
-
-          <!-- <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" name="email2" id="email" placeholder="Email">
-            <div class="invalid-feedback">
-              Molim Vas, unesite ispravnu email adresu. (Primer: xxxx@xxxx.xxxx)
-            </div>
-            <div class="valid-feedback">
-              Email ispravno unešen.
-            </div>
-            
-          </div> -->
-
           <div class="form-group">
             <label for="phone">Telefon</label>
             <input type="text" class="form-control" name="phone" id="phone" placeholder="Broj telefona">
@@ -431,11 +420,6 @@
             <h3>Adresa za dostavu</h3>
             <br/>
           </div>
-
-          <!-- <div class="form-group">
-            <label for="state">Država</label>
-            <input type="text" class="form-control" id="state" placeholder="Država">
-          </div> -->
 
           <div class="form-group">
             <label for="city">Grad</label>

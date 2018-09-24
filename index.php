@@ -474,6 +474,8 @@
 
     </style>
 
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
   </head>
 
   <body id="page-top">
@@ -554,7 +556,6 @@
 
         $first_name2 = trim(filter_var($first_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
         if (!preg_match ('/^[a-zA-Z\s]+$/', $first_name2, $matches)){
-          //echo "<script type='text/javascript'>alert('ne');</script>";
           $error2 = 1;
           $msg2 = "Niste uneli ispravno ime.";
         }
@@ -563,7 +564,6 @@
         if (!preg_match ('/^[a-zA-Z\s]+$/', $last_name2, $matches)){
           $msg2 = "Niste uneli ispravno prezime.";
 
-          //echo "<script type='text/javascript'>alert('ne');</script>";
           $error2 = 1;
         }
 
@@ -571,21 +571,22 @@
         if (!preg_match ('/^[a-zA-Z\s\.\,\:\"]+$/', $last_name2, $matches)){
           $msg2 = "Niste uneli ispravno pitanje. Unesite pitanje koristeci samo slova, razmake, tacku i zarez.";
 
-          //echo "<script type='text/javascript'>alert('ne');</script>";
           $error2 = 1;
         }
 
 
 
-        $_SESSION["first_name2"] = $first_name2;
-        $_SESSION["last_name2"] = $last_name2;
-        $_SESSION["pitanje"] = $pitanje;
-        $_SESSION["email2"] = $email2;
-
+        
         if($error2 == 1){
           errorHandle($msg2);
         }
         else{
+
+            $_SESSION["first_name2"] = $first_name2;
+            $_SESSION["last_name2"] = $last_name2;
+            $_SESSION["pitanje"] = $pitanje;
+            $_SESSION["email2"] = $email2;
+
             $email_from = "immunopharma@sezampro.rs";
 
               $email_subject = "Pitajte lekara - immunopharma.rs";
@@ -892,6 +893,9 @@
         </div>
 
         <div class="form-check">
+
+          <div class="g-recaptcha" data-sitekey="6Le403EUAAAAAM4ZCLk3e1-95SqGu-2k5LhWJyFQ"></div>
+
           <input type="checkbox" class="form-check-input" id="roboCheck">
           <label class="form-check-label" for="roboCheck">Nisam robot</label>
           <div class="invalid-feedback">
@@ -927,6 +931,9 @@
         +381 11 3987747
       </div>
       <!-- /.container -->
+
+      <a href="https://seal.beyondsecurity.com/vulnerability-scanner-verification/www.immunopharma.rs"><img src="https://seal.beyondsecurity.com/verification-images/www.immunopharma.rs/vulnerability-scanner-2.gif" alt="Website Security Test" border="0"></a>
+
     </footer>
 
     <!-- The Modal -->

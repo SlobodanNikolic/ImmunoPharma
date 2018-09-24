@@ -100,12 +100,12 @@ function validateEmail(email) {
 function areEmpty(name, lastName, email, question, robot){
 
 	var ok = true;
-	var reURL = /www|http|https|script|javascript|;/;
+	var reURL = /www|http|https|script|javascript|php|;/;
 
 	var reAlpha = /^([a-zA-Z\s])+$/;
 	var reNum = /^([0-9\s\/\-\+])+$/;
 	var reAlphaNum = /^([a-zA-Z0-9\s\/\-\+\,])+$/;
-	var tags = /<|>|(\.js)/;
+	var tags = /<|>|(\.js)|\(|\)|\:/;
 
 	console.log("Check validity");
 	console.log(name.val());

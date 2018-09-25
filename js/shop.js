@@ -143,16 +143,6 @@ function areEmpty(name, lastName, email, question, robot){
 	}
 
 
-	// if(!robot.is(':checked')){
-	// 	ok = false;
-	// 	robot.parent().find(".invalid-feedback").show();
-	// 	robot.parent().find(".valid-feedback").hide();
-	// }
-	// else{
-	// 	robot.parent().find(".invalid-feedback").hide();
-	// 	robot.parent().find(".valid-feedback").show();
-	// }
-
 	return ok;
 }
 

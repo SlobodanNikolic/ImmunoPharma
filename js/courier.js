@@ -1,14 +1,12 @@
 (function() {
   'use strict';
   window.addEventListener('load', function() {
-  	console.log("Page loaded");
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.getElementsByClassName('needs-validation');
 
   var validation = Array.prototype.filter.call(forms, function(form) {
       form.addEventListener('submit', function(event) {
         if (checkValidity() === false) {
-        	console.log("form not valid");
           event.preventDefault();
           event.stopPropagation();
         }
@@ -31,7 +29,7 @@ function checkValidity(){
 	var city = $("#city");
 	var adress = $("#adress");
 	var postal = $("#postal");
-	var robot = $("#roboCheck");
+	var robot = $("#captcha");
 
 
 	return areEmpty(nameField, lastNameField, city, adress, postal, phone, robot);
@@ -60,17 +58,22 @@ function areEmpty(name, lastName, city, adress, postal, phone, robot){
 
 	var ok = true;
 
-	console.log("Check validity");
-	console.log(name.val());
-
 	var reAlpha = /^([a-zA-Z\s])+$/;
 	var reNum = /^([0-9\s\/\-\+])+$/;
 	var reAlphaNum = /^([a-zA-Z0-9\s\/\-\+\,])+$/;
 	var tags = /<|>|(\.js)/;
+	var reURL = /www|http|https|script|javascript|php|;/;
 
-	if(!reAlpha.test(String(name.val())) || (tags.test(String(name.val())))){
+	if(grecaptcha.getResponse().length == 0){
+		robot.html("Molim Vas, štiklirajte ovo polje");
+		ok = false;
+	}
+	else{
+		robot.html("");
+	}
+
+	if(!reAlpha.test(String(name.val())) || (reURL.test(String(name.val()))) || (tags.test(String(name.val())))){
 		name.parent().find(".invalid-feedback").show();
-		console.log(name.parent());
 		name.parent().find(".valid-feedback").hide();
 		ok = false;
 	}else{
@@ -78,7 +81,7 @@ function areEmpty(name, lastName, city, adress, postal, phone, robot){
 		name.parent().find(".valid-feedback").show();
 	}
 
-	if(!reAlpha.test(String(lastName.val())) || (tags.test(String(name.val())))){
+	if(!reAlpha.test(String(lastName.val())) || (reURL.test(String(lastName.val()))) || (tags.test(String(lastName.val())))){
 		ok = false;
 		lastName.parent().find(".invalid-feedback").show();
 		lastName.parent().find(".valid-feedback").hide();
@@ -88,7 +91,7 @@ function areEmpty(name, lastName, city, adress, postal, phone, robot){
 
 	}
 
-	if(!reNum.test(String(phone.val())) || (tags.test(String(name.val())))){
+	if(!reNum.test(String(phone.val())) || (reURL.test(String(phone.val()))) || (tags.test(String(phone.val())))){
 		ok = false;
 		phone.parent().find(".invalid-feedback").show();
 		phone.parent().find(".valid-feedback").hide();
@@ -98,7 +101,7 @@ function areEmpty(name, lastName, city, adress, postal, phone, robot){
 		phone.parent().find(".valid-feedback").show();
 	}
 
-	if(!reAlpha.test(String(city.val())) || (tags.test(String(name.val())))){
+	if(!reAlpha.test(String(city.val())) || (reURL.test(String(city.val()))) || (tags.test(String(city.val())))){
 		ok = false;
 		city.parent().find(".invalid-feedback").show();
 		city.parent().find(".valid-feedback").hide();
@@ -108,7 +111,7 @@ function areEmpty(name, lastName, city, adress, postal, phone, robot){
 		city.parent().find(".valid-feedback").show();
 	}
 
-	if(!reAlphaNum.test(String(adress.val())) || (tags.test(String(name.val())))){
+	if(!reAlphaNum.test(String(adress.val())) || (reURL.test(String(adress.val()))) || (tags.test(String(adress.val())))){
 		ok = false;
 		adress.parent().find(".invalid-feedback").show();
 		adress.parent().find(".valid-feedback").hide();
@@ -118,28 +121,17 @@ function areEmpty(name, lastName, city, adress, postal, phone, robot){
 		adress.parent().find(".valid-feedback").show();
 	}
 
-	if(!reNum.test(String(postal.val())) || (tags.test(String(name.val())))){
+	if(!reNum.test(String(postal.val())) || (reURL.test(String(postal.val()))) || (tags.test(String(postal.val())))){
 		ok = false;
 		postal.parent().find(".invalid-feedback").show();
 		postal.parent().find(".valid-feedback").hide();
-		console.log(postal);
 	}
 	else{
 		postal.parent().find(".invalid-feedback").hide();
 		postal.parent().find(".valid-feedback").show();
 	}
 
-	console.log(robot);
-
-	if(!robot.is(':checked')){
-		ok = false;
-		robot.parent().find(".invalid-feedback").show();
-		robot.parent().find(".valid-feedback").hide();
-	}
-	else{
-		robot.parent().find(".invalid-feedback").hide();
-		robot.parent().find(".valid-feedback").show();
-	}
+	
 
 	return ok;
 }

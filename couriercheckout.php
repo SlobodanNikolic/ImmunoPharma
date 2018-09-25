@@ -156,6 +156,7 @@
       
 
     </style>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
   </head>
 
@@ -241,130 +242,168 @@
 
       if (isset($_POST['submit'])) {
 
-        $error2 = 0;
-        $msg2 = "";
 
-        $first_name2 = $_POST['first_name2'];
-        $last_name2 = $_POST['last_name2'];
-        $phone = $_POST['phone'];
-        $email2 ="";
-        $city = $_POST['city'];
-        $postal = $_POST['postal'];
-        $adress = $_POST['adress'];
 
-        if(isset($_POST['email2'])){
-          $email2 = $_POST['email2'];
+        if(isset($_SESSION['message_sent'])){
+          if(!$_SESSION['message_sent']){
+            unset($_SESSION['message_sent']);
+            echo "<h2>Nije poslato</h2>";
+            exit;
+          }
+          else{
+            unset($_SESSION['message_sent']);
+            echo '<script type="text/javascript">alert("Vaše pitanje je uspešno poslato. Neko od naših lekara će Vam odgovoriti, u što kraćem roku.");</script>';
 
-          if($email2 != ""){
-            $email2 = filter_var($email2, FILTER_SANITIZE_EMAIL);
-
-            // Validate e-mail
-            if (!filter_var($email2, FILTER_VALIDATE_EMAIL)) {
-              $error2 = 1;
-              $msg2 = "Niste uneli ispravan email.";
-            }
+            exit;
           }
         }
 
-        $first_name2 = trim(filter_var($first_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (!preg_match ('/^[a-zA-Z\s]+$/', $first_name2, $matches)){
-          //echo "<script type='text/javascript'>alert('ne');</script>";
-          $error2 = 1;
-          $msg2 = "Niste uneli ispravno ime.";
+        if(isset($_POST['g-recaptcha-response'])){
+          $captcha=$_POST['g-recaptcha-response'];
+        }
+        if(!$captcha){
+          $_SESSION["message_sent"] = false;
+          echo "<h2>Fali captcha</h2>";
+          exit;
         }
 
-        $last_name2 = trim(filter_var($last_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (!preg_match ('/^[a-zA-Z\s]+$/', $last_name2, $matches)){
-          $msg2 = "Niste uneli ispravno prezime.";
+        $secretKey = "6Le403EUAAAAAOxYGXWxvDgkzhx4cG1S-OazjAEJ";
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$captcha."&remoteip=".$ip);
+        $responseKeys = json_decode($response,true);
 
-          //echo "<script type='text/javascript'>alert('ne');</script>";
-          $error2 = 1;
+
+        if(intval($responseKeys["success"]) !== 1){
+          $_SESSION["message_sent"] = false;
+          echo "<h2>captcha je negativan</h2>";
+          exit;
         }
+        else{
 
-        $phone = trim(filter_var($phone, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (!preg_match ('/^[0-9\s\/\-\+]+$/', $phone, $matches)){
-          $msg2 = "Niste uneli ispravan broj telefona.";
+          $error2 = 0;
+          $msg2 = "";
 
-          //echo "<script type='text/javascript'>alert('ne');</script>";
-          $error2 = 1;
-        }
+          $first_name2 = $_POST['first_name2'];
+          $last_name2 = $_POST['last_name2'];
+          $phone = $_POST['phone'];
+          $email2 ="";
+          $city = $_POST['city'];
+          $postal = $_POST['postal'];
+          $adress = $_POST['adress'];
 
-        $city = trim(filter_var($city, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (!preg_match ('/^[a-zA-Z\s]+$/', $city, $matches)){
-          $msg2 = "Niste uneli ispravan naziv grada.";
+          if(isset($_POST['email2'])){
+            $email2 = $_POST['email2'];
 
-          $error2 = 1;
-        }
+            if($email2 != ""){
+              $email2 = filter_var($email2, FILTER_SANITIZE_EMAIL);
 
-        $postal = trim(filter_var($postal, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (!preg_match ('/^[0-9\s\/\-\+]+$/', $postal, $matches)){
-          $msg2 = "Niste uneli ispravan postanski broj.";
+              // Validate e-mail
+              if (!filter_var($email2, FILTER_VALIDATE_EMAIL)) {
+                $error2 = 1;
+                $msg2 = "Niste uneli ispravan email.";
+              }
+            }
+          }
+
+          $first_name2 = trim(filter_var($first_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+          if (!preg_match ('/^[a-zA-Z\s]+$/', $first_name2, $matches)){
+            //echo "<script type='text/javascript'>alert('ne');</script>";
+            $error2 = 1;
+            $msg2 = "Niste uneli ispravno ime.";
+          }
+
+          $last_name2 = trim(filter_var($last_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+          if (!preg_match ('/^[a-zA-Z\s]+$/', $last_name2, $matches)){
+            $msg2 = "Niste uneli ispravno prezime.";
+
+            //echo "<script type='text/javascript'>alert('ne');</script>";
+            $error2 = 1;
+          }
+
+          $phone = trim(filter_var($phone, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+          if (!preg_match ('/^[0-9\s\/\-\+]+$/', $phone, $matches)){
+            $msg2 = "Niste uneli ispravan broj telefona.";
+
+            //echo "<script type='text/javascript'>alert('ne');</script>";
+            $error2 = 1;
+          }
+
+          $city = trim(filter_var($city, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+          if (!preg_match ('/^[a-zA-Z\s]+$/', $city, $matches)){
+            $msg2 = "Niste uneli ispravan naziv grada.";
+
+            $error2 = 1;
+          }
+
+          $postal = trim(filter_var($postal, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+          if (!preg_match ('/^[0-9\s\/\-\+]+$/', $postal, $matches)){
+            $msg2 = "Niste uneli ispravan postanski broj.";
+            
+            $error2 = 1;
+          }
+
+          $adress = trim(filter_var($adress, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+          if (!preg_match ('/^[a-zA-Z0-9\s\/\-\+]+$/', $adress, $matches)){
+            $msg2 = "Niste uneli ispravnu adresu.";
+            
+            $error2 = 1;
+          }
           
-          $error2 = 1;
-        }
 
-        $adress = trim(filter_var($adress, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (!preg_match ('/^[a-zA-Z0-9\s\/\-\+]+$/', $adress, $matches)){
-          $msg2 = "Niste uneli ispravnu adresu.";
-          
-          $error2 = 1;
-        }
-        
+          if($error2 == 1){
+            errorHandle($msg2);
+          }
+          else if($error2 == 0){
 
-        if($error2 == 1){
-          errorHandle($msg2);
-        }
-        else if($error2 == 0){
+            $order = addProducts();
 
-          $order = addProducts();
+            $_SESSION["first_name2"] = $first_name2;
+            $_SESSION["last_name2"] = $last_name2;
+            $_SESSION["phone"] = $phone;
+            $_SESSION["email2"] = $email2;
+            $_SESSION["city"] = $city;
+            $_SESSION["postal"] = $postal;
+            $_SESSION["adress"] = $adress;
 
-          $_SESSION["first_name2"] = $first_name2;
-          $_SESSION["last_name2"] = $last_name2;
-          $_SESSION["phone"] = $phone;
-          $_SESSION["email2"] = $email2;
-          $_SESSION["city"] = $city;
-          $_SESSION["postal"] = $postal;
-          $_SESSION["adress"] = $adress;
+            $email_from = "immunopharma@sezampro.rs";
 
-          $email_from = "immunopharma@sezampro.rs";
+            $email_subject = "Poručivanje proizvoda - immunopharma.rs";
 
-          $email_subject = "Poručivanje proizvoda - immunopharma.rs";
+            $email_body = $first_name2 . " \n" . $last_name2 . "\n". $phone . ", " . $email2 . "\n" . $city . "\n" . $postal . "\n" . $adress . "\n" . $order;
 
-          $email_body = $first_name2 . " \n" . $last_name2 . "\n". $phone . ", " . $email2 . "\n" . $city . "\n" . $postal . "\n" . $adress . "\n" . $order;
+            $where = $email2;
 
-          $where = $email2;
+            $to = "order.immunopharma@gmail.com";
 
-          $to = "order.immunopharma@gmail.com";
+            $headers = "From: $email_from \r\n";
 
-          $headers = "From: $email_from \r\n";
+            $headers .= "Reply-To: immunopharma@sezampro.rs \r\n";
 
-          $headers .= "Reply-To: immunopharma@sezampro.rs \r\n";
+            mail($to,$email_subject,$email_body,$headers);
 
-          mail($to,$email_subject,$email_body,$headers);
-
-          unset($_SESSION['ig500']);
-          unset($_SESSION['ig100']);
-          unset($_SESSION['acidex']);
-          unset($_SESSION['holex']);
-          unset($_SESSION['q10']);
+            unset($_SESSION['ig500']);
+            unset($_SESSION['ig100']);
+            unset($_SESSION['acidex']);
+            unset($_SESSION['holex']);
+            unset($_SESSION['q10']);
 
 
-          echo '<script language="javascript">';
-          echo 'localStorage.removeItem("immunoG500");
-                localStorage.removeItem("immunoG100");
-                localStorage.removeItem("holex");
-                localStorage.removeItem("acidex");
-                localStorage.removeItem("q10");';
-          echo 'alert("Vaša porudžbina je uspešno poslata. Osoba zadužena za porudžbinu će Vas pozvati u roku od jednog radnog dana, radi potvrde. Hvala na poverenju.")';
-          echo '</script>';
+            echo '<script language="javascript">';
+            echo 'localStorage.removeItem("immunoG500");
+                  localStorage.removeItem("immunoG100");
+                  localStorage.removeItem("holex");
+                  localStorage.removeItem("acidex");
+                  localStorage.removeItem("q10");';
+            echo 'alert("Vaša porudžbina je uspešno poslata. Osoba zadužena za porudžbinu će Vas pozvati u roku od jednog radnog dana, radi potvrde. Hvala na poverenju.")';
+            echo '</script>';
 
-          echo '<script language="javascript">';
-          echo 'location.assign("index.php#products");';
-          echo '</script>';
+            echo '<script language="javascript">';
+            echo 'location.assign("index.php#products");';
+            echo '</script>';
 
-        }
+          }
 
-
+      }
         
 
       }
@@ -454,16 +493,10 @@
             </div>
           </div>
 
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="roboCheck">
-            <label class="form-check-label" for="roboCheck">Nisam robot</label>
-            <div class="invalid-feedback">
-              Potrebno je da ovo polje bude štiklirano.
-            </div>
-            <div class="valid-feedback">
-              Polje je ispravno popunjeno.
-            </div>
-          </div>
+          <div class="g-recaptcha" data-sitekey="6Le403EUAAAAAM4ZCLk3e1-95SqGu-2k5LhWJyFQ"></div>
+          <span id="captcha" style="color:red; font-size: 13px;"></span>
+          
+          <br/>
           <br/>
 
           <button type="submit" name="submit" class="btn btn-success">Završi kupovinu</button>

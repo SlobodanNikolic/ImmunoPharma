@@ -20,9 +20,11 @@ var span = document.getElementsByClassName("close")[0];
 console.log(modal);
 console.log(span);
 
+if(span != undefined){
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
+  span.onclick = function() {
+      modal.style.display = "none";
+  }
 }
 
 // When the user clicks anywhere outside of the modal, close it

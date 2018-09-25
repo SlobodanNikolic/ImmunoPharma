@@ -39,7 +39,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Immuno Pharma je zastupnik slovenačke kompanije Natura Farma koja je zaslužna za razvoj i proizvodnju Immuno G+® linije proizvoda. Težimo pomeranju granica proizvoda prirodnog porekla i istraživanju načina za iskorišćavanje najboljeg iz prirode, kako bismo primenili svoja pozitivna istraživačka iskustva u prevenciji i tretmanu medicinskih potreba savremenog čoveka. Immuno Pharma D.O.O. Beograd">
+    <meta name="description" content="Immuno Pharma je zastupnik slovenačke kompanije Natura Farma koja je zaslužna za razvoj i proizvodnju Immuno G+® linije proizvoda. Težimo pomeranju granica proizvoda prirodnog porekla i istraživanju načina za iskorišćavanje najboljeg iz prirode, kako bismo primenili svoja pozitivna istraživačka iskustva u prevenciji i tretmanu medicinskih potreba savremenog čoveka. Immuno Pharma d.o.o. Beograd">
 
     <title>Immuno Pharma : Immuno G, Holesterol Ex Complex, Acid Ex, Natural Q10</title>
 
@@ -521,97 +521,6 @@
       </div>
     </nav>
 
-    <?php 
-
-    	function errorHandle($mes) {
-          echo "<script type='text/javascript'>alert('$mes');</script>";
-
-        }
-
-	    if (isset($_POST['submit'])) {
-
-        $error2 = 0;
-        $msg2 = "";
-        $first_name2 = $_POST['first_name'];
-
-        $last_name2 = $_POST['last_name'];
-       
-
-        $pitanje = $_POST['comments'];
-        $email2 ="";
-
-        if(isset($_POST['email2'])){
-          $email2 = $_POST['email2'];
-
-          if($email2 != ""){
-            $email2 = filter_var($email2, FILTER_SANITIZE_EMAIL);
-
-            // Validate e-mail
-            if (!filter_var($email2, FILTER_VALIDATE_EMAIL)) {
-              $error2 = 1;
-              $msg2 = "Niste uneli ispravan email.";
-            }
-          }
-        }
-
-        $first_name2 = trim(filter_var($first_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (!preg_match ('/^[a-zA-Z\s]+$/', $first_name2, $matches)){
-          $error2 = 1;
-          $msg2 = "Niste uneli ispravno ime.";
-        }
-
-        $last_name2 = trim(filter_var($last_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (!preg_match ('/^[a-zA-Z\s]+$/', $last_name2, $matches)){
-          $msg2 = "Niste uneli ispravno prezime.";
-
-          $error2 = 1;
-        }
-
-        $pitanje = trim(filter_var($pitanje, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (!preg_match ('/^[a-zA-Z\s\.\,\:\"]+$/', $last_name2, $matches)){
-          $msg2 = "Niste uneli ispravno pitanje. Unesite pitanje koristeci samo slova, razmake, tacku i zarez.";
-
-          $error2 = 1;
-        }
-
-
-
-        
-        if($error2 == 1){
-          errorHandle($msg2);
-        }
-        else{
-
-            $_SESSION["first_name2"] = $first_name2;
-            $_SESSION["last_name2"] = $last_name2;
-            $_SESSION["pitanje"] = $pitanje;
-            $_SESSION["email2"] = $email2;
-
-            $email_from = "immunopharma@sezampro.rs";
-
-              $email_subject = "Pitajte lekara - immunopharma.rs";
-
-              $email_body = $_POST['first_name'] . " \n" . $_POST['last_name'] . "\n". $_POST['comments'] . ", " . $_POST['email2'] . "\n";
-
-              $where = $_POST['email2'];
-              $to = "order.immunopharma@gmail.com";
-
-              $headers = "From: $email_from \r\n";
-
-              $headers .= "Reply-To: immunopharma@sezampro.rs \r\n";
-
-              mail($to,$email_subject,$email_body,$headers);
-
-
-        }
-
-
-        
-
-      }
-
-    ?>
-
 
 
     <section class="segment1">
@@ -895,15 +804,15 @@
         <div class="form-check">
 
           <div class="g-recaptcha" data-sitekey="6Le403EUAAAAAM4ZCLk3e1-95SqGu-2k5LhWJyFQ"></div>
-
-          <input type="checkbox" class="form-check-input" id="roboCheck">
+          <span id="captcha" style="color:red; font-size: 13px;"></span>
+          <!-- <input type="checkbox" class="form-check-input" id="roboCheck">
           <label class="form-check-label" for="roboCheck">Nisam robot</label>
           <div class="invalid-feedback">
               Potrebno je da ovo polje bude štiklirano.
             </div>
           <div class="valid-feedback">
             Polje je ispravno popunjeno.
-          </div>
+          </div> -->
           </div>
         <br/>
         <button class="colored-button" type="submit" name="submit">Pošalji</button>
@@ -924,15 +833,13 @@
       </div>
 
       <div id="info">
-        Immuno Pharma D.O.O.</br>
+        Immuno Pharma d.o.o.</br>
         Beograd</br>
 
         Broj telefona besplatnog savetovališta:
         +381 11 3987747
       </div>
       <!-- /.container -->
-
-      <a href="https://seal.beyondsecurity.com/vulnerability-scanner-verification/www.immunopharma.rs"><img src="https://seal.beyondsecurity.com/verification-images/www.immunopharma.rs/vulnerability-scanner-2.gif" alt="Website Security Test" border="0"></a>
 
     </footer>
 
@@ -961,6 +868,133 @@
 
     <!-- Custom JavaScript for this theme -->
     <script src="js/scrolling-nav.js"></script>
+
+    <?php 
+
+      function errorHandle($mes) {
+          echo "<script type='text/javascript'>alert('$mes');</script>";
+
+        }
+
+
+        if (isset($_POST['submit'])) {
+
+        if(isset($_SESSION['message_sent'])){
+          if(!$_SESSION['message_sent']){
+            unset($_SESSION['message_sent']);
+            echo "<h2>Nije poslato</h2>";
+            exit;
+          }
+          else{
+            unset($_SESSION['message_sent']);
+            echo '<script type="text/javascript">alert("Vaše pitanje je uspešno poslato. Neko od naših lekara će Vam odgovoriti, u što kraćem roku.");</script>';
+
+            exit;
+          }
+        }
+
+        if(isset($_POST['g-recaptcha-response'])){
+          $captcha=$_POST['g-recaptcha-response'];
+        }
+        if(!$captcha){
+          $_SESSION["message_sent"] = false;
+          echo "<h2>Fali captcha</h2>";
+          exit;
+        }
+
+        $secretKey = "6Le403EUAAAAAOxYGXWxvDgkzhx4cG1S-OazjAEJ";
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$captcha."&remoteip=".$ip);
+        $responseKeys = json_decode($response,true);
+
+
+        if(intval($responseKeys["success"]) !== 1){
+          $_SESSION["message_sent"] = false;
+          echo "<h2>captcha je negativan</h2>";
+          exit;
+        } else {
+
+          $error2 = 0;
+          $msg2 = "";
+          $first_name2 = $_POST['first_name'];
+
+          $last_name2 = $_POST['last_name'];
+         
+
+          $pitanje = $_POST['comments'];
+          $email2 ="";
+
+          if(isset($_POST['email2'])){
+            $email2 = $_POST['email2'];
+
+            if($email2 != ""){
+              $email2 = filter_var($email2, FILTER_SANITIZE_EMAIL);
+
+              // Validate e-mail
+              if (!filter_var($email2, FILTER_VALIDATE_EMAIL)) {
+                $error2 = 1;
+                $msg2 = "Niste uneli ispravan email.";
+              }
+            }
+          }
+
+          $first_name2 = trim(filter_var($first_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+          if (!preg_match ('/^[a-zA-Z\s]+$/', $first_name2, $matches)){
+            $error2 = 1;
+            $msg2 = "Niste uneli ispravno ime.";
+          }
+
+          $last_name2 = trim(filter_var($last_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+          if (!preg_match ('/^[a-zA-Z\s]+$/', $last_name2, $matches)){
+            $msg2 = "Niste uneli ispravno prezime.";
+
+            $error2 = 1;
+          }
+
+          $pitanje = trim(filter_var($pitanje, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+          if (!preg_match ('/^[a-zA-Z\s\.\,\:\"]+$/', $last_name2, $matches)){
+            $msg2 = "Niste uneli ispravno pitanje. Unesite pitanje koristeci samo slova, razmake, tacku i zarez.";
+
+            $error2 = 1;
+          }
+
+
+
+          
+          if($error2 == 1){
+            errorHandle($msg2);
+          }
+          else{
+
+              $_SESSION["first_name2"] = $first_name2;
+              $_SESSION["last_name2"] = $last_name2;
+              $_SESSION["pitanje"] = $pitanje;
+              $_SESSION["email2"] = $email2;
+              $_SESSION["message_sent"] = true;
+
+              $email_from = "immunopharma@sezampro.rs";
+
+                $email_subject = "Pitajte lekara - immunopharma.rs";
+
+                $email_body = $_POST['first_name'] . " \n" . $_POST['last_name'] . "\n". $_POST['comments'] . ", " . $_POST['email2'] . "\n";
+
+                $where = $_POST['email2'];
+                $to = "order.immunopharma@gmail.com";
+
+                $headers = "From: $email_from \r\n";
+
+                $headers .= "Reply-To: immunopharma@sezampro.rs \r\n";
+
+                mail($to,$email_subject,$email_body,$headers);
+
+          }
+
+
+        }
+
+      }
+
+    ?>
 
   </body>
 

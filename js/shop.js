@@ -20,7 +20,6 @@ function addToCart(product){
 	}
 
 	var quantityInt = 0;
-	// console.log(productName + " : " + quantity);
 	var currentQuantity = localStorage.getItem(productName);
 	if(currentQuantity == null){
 		localStorage.setItem(productName, quantity);
@@ -32,34 +31,21 @@ function addToCart(product){
 	}
 
 	alert("Proizvod je dodat u korpu.")
-	// console.log(localStorage.getItem(productName));
 }
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (function() {
   'use strict';
   window.addEventListener('load', function() {
-  	console.log("Page loaded");
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-   
-  //   $("#questionForm").submit(function(event){
-	 //    console.log("On submit"); 
-		// event.preventDefault();  
-	    
-  //   });  
-
+  var forms = document.getElementsByClassName('needs-validation');
+ 
   var validation = Array.prototype.filter.call(forms, function(form) {
       form.addEventListener('submit', function(event) {
         if (checkValidity() === false) {
-        	console.log("form not valid");
           event.preventDefault();
           event.stopPropagation();
         }
         else{
-        	console.log("The form is valid");
-        	alert("Vaše pitanje je uspešno poslato, neko od naših lekara će Vam odgovoriti, u što kraćem roku.");
         }
       }, false);
     });
@@ -77,7 +63,7 @@ function checkValidity(){
 	var lastNameField = $("#lastName");
 	var emailField = $("#emailField");
 	var question = $("#question");
-	var robot = $("#roboCheck");
+	var robot = $("#captcha");
 
 	return areEmpty(nameField, lastNameField, emailField, question, robot);
 
@@ -107,13 +93,18 @@ function areEmpty(name, lastName, email, question, robot){
 	var reAlphaNum = /^([a-zA-Z0-9\s\/\-\+\,])+$/;
 	var tags = /<|>|(\.js)|\(|\)|\:/;
 
-	console.log("Check validity");
-	console.log(name.val());
+
+
+	if(grecaptcha.getResponse().length == 0){
+		robot.html("Molim Vas, štiklirajte ovo polje");
+		ok = false;
+	}
+	else{
+		robot.html("");
+	}
 
 	if(name.val() == "" || (reURL.test(String(name.val()))) || (tags.test(String(name.val()))) || !reAlpha.test(String(name.val()))){
-		console.log("name field is empty");
 		name.parent().find(".invalid-feedback").show();
-		console.log(name.parent());
 		name.parent().find(".valid-feedback").hide();
 		ok = false;
 	}else{
@@ -152,15 +143,15 @@ function areEmpty(name, lastName, email, question, robot){
 	}
 
 
-	if(!robot.is(':checked')){
-		ok = false;
-		robot.parent().find(".invalid-feedback").show();
-		robot.parent().find(".valid-feedback").hide();
-	}
-	else{
-		robot.parent().find(".invalid-feedback").hide();
-		robot.parent().find(".valid-feedback").show();
-	}
+	// if(!robot.is(':checked')){
+	// 	ok = false;
+	// 	robot.parent().find(".invalid-feedback").show();
+	// 	robot.parent().find(".valid-feedback").hide();
+	// }
+	// else{
+	// 	robot.parent().find(".invalid-feedback").hide();
+	// 	robot.parent().find(".valid-feedback").show();
+	// }
 
 	return ok;
 }

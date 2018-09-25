@@ -4,13 +4,6 @@
   	console.log("Page loaded");
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-   
-  //   $("#questionForm").submit(function(event){
-	 //    console.log("On submit"); 
-		// event.preventDefault();  
-	    
-  //   });  
 
   var validation = Array.prototype.filter.call(forms, function(form) {
       form.addEventListener('submit', function(event) {
@@ -20,8 +13,7 @@
           event.stopPropagation();
         }
         else{
-        	console.log("The form is valid");
-        	// alert("Vaše porudžbina je uspešno poslata. Osoba zadužena za Vašu porudžbinu će Vas pozvati u roku od jednog radnog dana, radi potvrde. Hvala na poverenju.");
+
         }
       }, false);
     });

@@ -243,6 +243,7 @@
 
     <style type="text/css">
       
+
       #cart-main{
         margin-top: 100px;
       }
@@ -274,6 +275,11 @@
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="index.php#products">Proizvodi</a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="clanci.html">Članci</a>
+            </li>
+            
             
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="index.php#ask">Pitajte doktora</a>

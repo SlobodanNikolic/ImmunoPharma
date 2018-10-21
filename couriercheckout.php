@@ -58,6 +58,10 @@
 
     <style type="text/css">
       
+      .form-check{
+      margin-left: -90px;
+    }
+      
       header{
         background-color: #FFFBFA;
         /*font-family: 'Lato', sans-serif;
@@ -190,6 +194,11 @@
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger nav-title" href="index.php#products">Proizvodi</a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="clanci.html">Članci</a>
+            </li>
+            
             
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger nav-title" href="index.php#ask">Pitajte doktora</a>

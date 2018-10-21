@@ -12,25 +12,36 @@ function addEvent(obj, evt, fn) {
 function addToCart(product){
 	var productName = product.name;
 	var quantity = product.parentNode.children[1].value;
+	console.log("uslo u f");
 
-	var reNum2 = /^([0-9\s\/\-\+])+$/;
-	if(!reNum2.test(quantity)){
-		alert("Pogrešno unešena vrednost u polje za količinu proizvoda.");
-		return;
+	if(quantity!="" && quantity!=null){
+
+		console.log("quantity not null");
+		var reNum2 = /^([0-9\s\/\-\+])+$/;
+		if(!reNum2.test(quantity)){
+			alert("Pogrešno unešena vrednost u polje za količinu proizvoda.");
+			return;
+		}
 	}
-
+	else{
+		console.log("quantity is null, set to 1");
+		quantity = 1;
+	}
+	
 	var quantityInt = 0;
 	var currentQuantity = localStorage.getItem(productName);
 	if(currentQuantity == null){
+		console.log("current quantity is null");
 		localStorage.setItem(productName, quantity);
 	}
 	else{
+		console.log("current quantity not null");
 		quantityInt = parseInt(currentQuantity);
 		quantityInt += parseInt(quantity);
 		localStorage.setItem(productName, quantityInt);
 	}
 
-	alert("Proizvod je dodat u korpu.")
+	alert("Proizvod je dodat u korpu.");
 }
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields

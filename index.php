@@ -72,6 +72,10 @@
 
     <style type="text/css">
       
+    .form-check{
+      margin-left: -90px;
+    }
+
       header{
         background-color: #FFFBFA;
         /*font-family: 'Lato', sans-serif;
@@ -323,6 +327,10 @@
 
       }
 
+      .g-recaptcha{
+        margin-bottom: 20px; margin-left: -20px;
+      }
+
 
       @media only screen and (min-width: 10px) and (max-width: 320px) {
         .image-text{
@@ -331,6 +339,9 @@
           /*border: 1px solid black;*/
         }
 
+        .g-recaptcha{
+          margin-left: -65px;
+        }
         
 
         .read-more{
@@ -502,6 +513,11 @@
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#products">Proizvodi</a>
             </li>
+            
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="clanci.html">Članci</a>
+            </li>
+            
             
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#ask">Pitajte doktora</a>
@@ -791,32 +807,22 @@
             <div class="valid-feedback">
               Pitanje ispravno unešeno.
             </div>
+
           </div>
         </div>
 
-        <div class="form-group">
-          
-            <!-- <div class="invalid-feedback">
-              You must agree before submitting.
-            </div> -->
-        </div>
-
-        <div class="form-check">
-
-          <div class="g-recaptcha" data-sitekey="6Le403EUAAAAAM4ZCLk3e1-95SqGu-2k5LhWJyFQ"></div>
-          <span id="captcha" style="color:red; font-size: 13px;"></span>
-          <!-- <input type="checkbox" class="form-check-input" id="roboCheck">
-          <label class="form-check-label" for="roboCheck">Nisam robot</label>
-          <div class="invalid-feedback">
-              Potrebno je da ovo polje bude štiklirano.
+        <div class="g-recaptcha" data-sitekey="6Le403EUAAAAAM4ZCLk3e1-95SqGu-2k5LhWJyFQ">
+              
             </div>
-          <div class="valid-feedback">
-            Polje je ispravno popunjeno.
-          </div> -->
-          </div>
-        <br/>
-        <button class="colored-button" type="submit" name="submit">Pošalji</button>
+            <span id="captcha" style="color:red; font-size: 13px;"></span>
+              
+            <br/>
+            <button class="colored-button" type="submit" name="submit">Pošalji</button>
+
+          
       </div>
+
+
     </form>
     </section>
 

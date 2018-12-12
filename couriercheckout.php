@@ -35,6 +35,8 @@
 <!-- End Facebook Pixel Code -->
 
     <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"></meta>
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Poručivanje proizvoda, Immuno Pharma D.O.O. Beograd">
 
@@ -251,8 +253,6 @@
 
       if (isset($_POST['submit'])) {
 
-
-
         if(isset($_SESSION['message_sent'])){
           if(!$_SESSION['message_sent']){
             unset($_SESSION['message_sent']);
@@ -300,6 +300,7 @@
           $postal = $_POST['postal'];
           $adress = $_POST['adress'];
 
+
           if(isset($_POST['email2'])){
             $email2 = $_POST['email2'];
 
@@ -314,15 +315,15 @@
             }
           }
 
-          $first_name2 = trim(filter_var($first_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-          if (!preg_match ('/^[a-zA-Z\s]+$/', $first_name2, $matches)){
+          $first_name2 = htmlspecialchars($first_name2, ENT_QUOTES);
+          if (!preg_match ('/^[a-zA-Z\s\p{L}]+$/u', $first_name2, $matches)){
             //echo "<script type='text/javascript'>alert('ne');</script>";
             $error2 = 1;
             $msg2 = "Niste uneli ispravno ime.";
           }
 
-          $last_name2 = trim(filter_var($last_name2, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-          if (!preg_match ('/^[a-zA-Z\s]+$/', $last_name2, $matches)){
+          $last_name2 = htmlspecialchars($last_name2, ENT_QUOTES);
+          if (!preg_match ('/^[a-zA-Z\s\p{L}]+$/u', $last_name2, $matches)){
             $msg2 = "Niste uneli ispravno prezime.";
 
             //echo "<script type='text/javascript'>alert('ne');</script>";
@@ -330,15 +331,15 @@
           }
 
           $phone = trim(filter_var($phone, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-          if (!preg_match ('/^[0-9\s\/\-\+]+$/', $phone, $matches)){
+          if (!preg_match ('/^[0-9\s\/\-\+,]+$/', $phone, $matches)){
             $msg2 = "Niste uneli ispravan broj telefona.";
 
             //echo "<script type='text/javascript'>alert('ne');</script>";
             $error2 = 1;
           }
 
-          $city = trim(filter_var($city, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-          if (!preg_match ('/^[a-zA-Z\s]+$/', $city, $matches)){
+          $city = htmlspecialchars($city, ENT_QUOTES);
+          if (!preg_match ('/^[a-zA-Z\s\p{L}]+$/u', $city, $matches)){
             $msg2 = "Niste uneli ispravan naziv grada.";
 
             $error2 = 1;
@@ -351,14 +352,13 @@
             $error2 = 1;
           }
 
-          $adress = trim(filter_var($adress, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-          if (!preg_match ('/^[a-zA-Z0-9\s\/\-\+]+$/', $adress, $matches)){
+          $adress = htmlspecialchars($adress, ENT_QUOTES);
+          if (!preg_match ('/^[a-zA-Z0-9\s\/\-\+\p{L}]+$/u', $adress, $matches)){
             $msg2 = "Niste uneli ispravnu adresu.";
             
             $error2 = 1;
           }
           
-
           if($error2 == 1){
             errorHandle($msg2);
           }
@@ -428,7 +428,7 @@
           <h3>Podaci o kupcu</h3>
         </div>
 
-        <form class="needs-validation" id="questionForm" novalidate method="post">
+        <form class="needs-validation" id="questionForm" novalidate method="post" accept-charset="UTF-8">
           <div class="form-group">
             <label for="firstName">Ime</label>
             <input type="text" class="form-control" name="first_name2" id="firstName" placeholder="Ime">

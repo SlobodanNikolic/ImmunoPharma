@@ -68,6 +68,7 @@
       
 
     $( document ).ready(function() {
+      
       var itm = document.getElementById("product-acidex");
       var parent = document.getElementById("shop-container");
       var cln = itm.cloneNode(true);

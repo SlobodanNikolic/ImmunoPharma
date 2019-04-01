@@ -30,9 +30,9 @@ function checkValidity(){
 	var adress = $("#adress");
 	var postal = $("#postal");
 	var robot = $("#captcha");
+	var note = $("#note");
 
-
-	return areEmpty(nameField, lastNameField, city, adress, postal, phone, robot);
+	return areEmpty(nameField, lastNameField, city, adress, postal, phone, robot, note);
 
 }
 
@@ -54,7 +54,7 @@ function emptyCart(){
 	
 }
 
-function areEmpty(name, lastName, city, adress, postal, phone, robot){
+function areEmpty(name, lastName, city, adress, postal, phone, robot, note){
 
 	var ok = true;
 
@@ -119,6 +119,16 @@ function areEmpty(name, lastName, city, adress, postal, phone, robot){
 	else{
 		adress.parent().find(".invalid-feedback").hide();
 		adress.parent().find(".valid-feedback").show();
+	}
+
+	if((reURL.test(String(note.val()))) || (tags.test(String(note.val())))){
+		ok = false;
+		note.parent().find(".invalid-feedback").show();
+		note.parent().find(".valid-feedback").hide();
+	}
+	else{
+		note.parent().find(".invalid-feedback").hide();
+		note.parent().find(".valid-feedback").show();
 	}
 
 	if(!reNum.test(String(postal.val())) || (reURL.test(String(postal.val()))) || (tags.test(String(postal.val())))){

@@ -299,6 +299,7 @@
           $city = $_POST['city'];
           $postal = $_POST['postal'];
           $adress = $_POST['adress'];
+          $note = $_POST['note'];
 
 
           if(isset($_POST['email2'])){
@@ -358,6 +359,8 @@
             
             $error2 = 1;
           }
+
+          $note = htmlspecialchars($note, ENT_QUOTES);
           
           if($error2 == 1){
             errorHandle($msg2);
@@ -373,12 +376,13 @@
             $_SESSION["city"] = $city;
             $_SESSION["postal"] = $postal;
             $_SESSION["adress"] = $adress;
+            $_SESSION["note"] = $note;
 
             $email_from = "immunopharma@sezampro.rs";
 
             $email_subject = "Poručivanje proizvoda - immunopharma.rs";
 
-            $email_body = $first_name2 . " \n" . $last_name2 . "\n". $phone . ", " . $email2 . "\n" . $city . "\n" . $postal . "\n" . $adress . "\n" . $order;
+            $email_body = $first_name2 . " \n" . $last_name2 . "\n". $phone . ", " . $email2 . "\n" . $city . "\n" . $postal . "\n" . $adress . "\n" . $order . "\n" . $note;
 
             $where = $email2;
 
@@ -395,6 +399,7 @@
             unset($_SESSION['acidex']);
             unset($_SESSION['holex']);
             unset($_SESSION['q10']);
+            unset($_SESSION['note']);
 
 
             echo '<script language="javascript">';
@@ -499,6 +504,17 @@
             </div>
             <div class="valid-feedback">
               Adresa ispravno unešena.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="note">Napomena</label>
+            <input type="text" class="form-control" id="note" name="note" placeholder="Napomena">
+            <div class="invalid-feedback">
+              Molim Vas, unesite napomenu, bez linkova, html tagova ili veb adresa. (Primer: dostavite proizvode pre 19h, molim vas.)
+            </div>
+            <div class="valid-feedback">
+              Napomena pravilno unešena.
             </div>
           </div>
 
